@@ -21,7 +21,7 @@ namespace DataBaseFirst_BackEnd {
             // Materializamos el Query (ejecutar el query)
             var output = empleyeeQry.ToList();
 
-        }
+        } 
 
         public static void Excercise2()
         {
