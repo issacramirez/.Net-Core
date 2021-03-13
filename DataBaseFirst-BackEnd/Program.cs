@@ -1,4 +1,5 @@
 ﻿using DataBaseFirst_BackEnd.DataAccess;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
@@ -13,7 +14,7 @@ namespace DataBaseFirst_BackEnd {
             /* NORTHWNDContext dataContext = new NORTHWNDContext();*/
 
             // se establece el query
-            var empleyeeQry = dataContext.Employees.Select(s => s);
+            var empleyeeQry = GetAllEmployees();
 
             // como obtener order_details de Orders
             // var orderDetail = dataContext.Orders.Where(w => w.OrderId == 1).SelectMany(sm => sm.OrderDetails);
@@ -21,7 +22,7 @@ namespace DataBaseFirst_BackEnd {
             // Materializamos el Query (ejecutar el query)
             var output = empleyeeQry.ToList();
 
-        } 
+        }
 
         public static void Excercise2()
         {
@@ -36,8 +37,14 @@ namespace DataBaseFirst_BackEnd {
             //    LastName = s.LastName
             //}).Where(w => w.Title == "Sales Representative");
 
+            /*var employeeQuery = dataContext.Employees.Select(s => new {
+                s.Title,
+                s.FirstName,
+                s.LastName
+            }).Where(w => w.Title == "Sales Representative");*/
+
             // usando pryeccion anonima
-            var employeeQuery = dataContext.Employees.Select(s => new {
+            var employeeQuery = GetAllEmployees().Select(s => new {
                 s.Title,
                 s.FirstName,
                 s.LastName
@@ -56,7 +63,13 @@ namespace DataBaseFirst_BackEnd {
 
             /*var dbContext = new NORTHWNDContext();*/
 
-            var employeeQuery = dataContext.Employees.Where(w => w.Title != "Sales Representative").Select(s => new {
+            /*var employeeQuery = dataContext.Employees.Where(w => w.Title != "Sales Representative").Select(s => new {
+                Nombre = s.FirstName,
+                Apellido = s.LastName,
+                Puesto = s.Title
+            });*/
+
+            var employeeQuery = GetAllEmployees().Where(w => w.Title != "Sales Representative").Select(s => new {
                 Nombre = s.FirstName,
                 Apellido = s.LastName,
                 Puesto = s.Title
@@ -72,51 +85,27 @@ namespace DataBaseFirst_BackEnd {
             var output = employeeQuery.ToList();
 
         }
+
         // se le puede poner un parametro por defecto default donde ya estará incializado, si se le pone un signo de interrogacion será opcional
         public static void Excersice4(int id)
         {
             // update Employees SET NAME = 'Alejandra' Where id = 1
-            Employees currentEmployee = GetEmployeeById(id);
+            UpdateEmployeeFirstNameById(id, "Alejandra");
 
-            if (currentEmployee == null)
-            {
-                throw new Exception("No se encontro el id del empleado proporcionado");
-            }
-
-            currentEmployee.FirstName = "Alejandra";
-            dataContext.SaveChanges();
-
-        }
-
-        private static Employees GetEmployeeById(int id)
-        {
-            return dataContext.Employees.Where(w => w.EmployeeId == id).FirstOrDefault();
-        }
-
-        private static Employees GetEmployeeByName(string name = "Rolando")
-        {
-            return dataContext.Employees.Where(w => w.FirstName == name).FirstOrDefault();
         }
 
         public static void Excercise5()
         {
-
             // insertar nuevo producto en la tabla a Products
-            var newProduct = new Products();
-            newProduct.ProductName = "Jugo del Valle";
-            newProduct.UnitPrice = 15.50m;
-
-            dataContext.Products.Add(newProduct);
-            dataContext.SaveChanges();
+            AddNewProduct("Jugo del Valle 1lt", 15.50m);
         }
+
+        
 
         public static void Escercise6(int id = 13, string name = "Rolando")
         {
-
             // borrar un empleado por el id
-            var employee = GetEmployeeById(id);
-            dataContext.Employees.Remove(employee);
-            dataContext.SaveChanges();
+            DeleteEmployeeById(id);
 
             // eliminar por nombre
             /*var employee = GetEmployeeByName(name);
@@ -130,7 +119,7 @@ namespace DataBaseFirst_BackEnd {
 
             // obtener los productos, el cliente y el empleado por ID de order
             // se pone where primero para que filtre la busqueda primero y mejorar la concurrencia, tambien puede ir despues del select.
-            var qry = dataContext.Orders.Where(w => w.OrderId == orderID).Select(s => new
+            var qry = GetOrderByID(orderID).Select(s => new
             {
                 Cliente = s.Customer.CompanyName,
                 Vendedor = s.Employee.FirstName,
@@ -140,7 +129,68 @@ namespace DataBaseFirst_BackEnd {
             var result = qry.ToList();
         }
 
-            static void Main(string[] args) {
+        #region HelperMethods
+
+        private static IQueryable<Employees> GetAllEmployees()
+        {
+            return dataContext.Employees.Select(s => s);
+        }
+
+        private static Employees GetEmployeeByName(string name = "Rolando")
+        {
+            return dataContext.Employees.Where(w => w.FirstName == name).FirstOrDefault();
+        }
+
+        private static Employees GetEmployeeById(int id)
+        {
+            return GetAllEmployees().Where(w => w.EmployeeId == id).FirstOrDefault();
+        }
+
+        private static void AddNewProduct(string productName, decimal unitPrice)
+        {
+            var newProduct = new Products();
+            newProduct.ProductName = productName;
+            newProduct.UnitPrice = unitPrice;
+
+            dataContext.Products.Add(newProduct);
+            dataContext.SaveChanges();
+
+        }
+
+        private static void DeleteEmployeeById(int id)
+        {
+            var employee = GetEmployeeById(id);
+            dataContext.Employees.Remove(employee);
+            dataContext.SaveChanges();
+        }
+
+        private static IQueryable<Orders> GetOrderByID(int orderID)
+        {
+            return GetAllOrders().Where(w => w.OrderId == orderID);
+        }
+
+        private static IQueryable<Orders> GetAllOrders()
+        {
+            return dataContext.Orders;
+        }
+
+        private static void UpdateEmployeeFirstNameById(int id, string newName)
+        {
+            Employees currentEmployee = GetEmployeeById(id);
+
+            if (currentEmployee == null)
+            {
+                throw new Exception("No se encontro el id del empleado proporcionado");
+            }
+
+            currentEmployee.FirstName = newName;
+            dataContext.SaveChanges();
+        }
+
+        #endregion
+
+
+        static void Main(string[] args) {
                 /*Excercise1();
                 Excercise2();
                 Excercise3();*/
