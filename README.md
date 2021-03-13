@@ -6,3 +6,6 @@ Conexión a Base de Datos SQL Server con Entity.Framework.SqlServer, uso de cont
 
 Creación de funciones de tipo CRUD
 Create Read Update Delete
+
+Programación por Capas
+
