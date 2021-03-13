@@ -7,6 +7,6 @@ namespace DataBaseFirst_BackEnd.Services
 {
     class BaseService
     {
-        public static NORTHWNDContext dataContext = new NORTHWNDContext();
+        protected NORTHWNDContext dataContext = new NORTHWNDContext();
     }
 }
