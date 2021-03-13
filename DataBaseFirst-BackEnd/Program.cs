@@ -1,4 +1,5 @@
 ﻿using DataBaseFirst_BackEnd.DataAccess;
+using DataBaseFirst_BackEnd.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -6,7 +7,10 @@ using System.Linq;
 namespace DataBaseFirst_BackEnd {
     class Program {
 
-        public static NORTHWNDContext dataContext = new NORTHWNDContext();
+        public static EmployeesService employeesService = new EmployeesService();
+        public static OrdersService ordersService = new OrdersService();
+        public static ProductServices productServices = new ProductServices();
+        
 
         public static void Excercise1()
         {
@@ -14,7 +18,7 @@ namespace DataBaseFirst_BackEnd {
             /* NORTHWNDContext dataContext = new NORTHWNDContext();*/
 
             // se establece el query
-            var empleyeeQry = GetAllEmployees();
+            var empleyeeQry = employeesService.GetAllEmployees();
 
             // como obtener order_details de Orders
             // var orderDetail = dataContext.Orders.Where(w => w.OrderId == 1).SelectMany(sm => sm.OrderDetails);
@@ -44,7 +48,7 @@ namespace DataBaseFirst_BackEnd {
             }).Where(w => w.Title == "Sales Representative");*/
 
             // usando pryeccion anonima
-            var employeeQuery = GetAllEmployees().Select(s => new {
+            var employeeQuery = employeesService.GetAllEmployees().Select(s => new {
                 s.Title,
                 s.FirstName,
                 s.LastName
@@ -69,7 +73,7 @@ namespace DataBaseFirst_BackEnd {
                 Puesto = s.Title
             });*/
 
-            var employeeQuery = GetAllEmployees().Where(w => w.Title != "Sales Representative").Select(s => new {
+            var employeeQuery = employeesService.GetAllEmployees().Where(w => w.Title != "Sales Representative").Select(s => new {
                 Nombre = s.FirstName,
                 Apellido = s.LastName,
                 Puesto = s.Title
@@ -90,14 +94,14 @@ namespace DataBaseFirst_BackEnd {
         public static void Excersice4(int id)
         {
             // update Employees SET NAME = 'Alejandra' Where id = 1
-            UpdateEmployeeFirstNameById(id, "Alejandra");
+            employeesService.UpdateEmployeeFirstNameById(id, "Alejandra");
 
         }
 
         public static void Excercise5()
         {
             // insertar nuevo producto en la tabla a Products
-            AddNewProduct("Jugo del Valle 1lt", 15.50m);
+            productServices.AddNewProduct("Jugo del Valle 1lt", 15.50m);
         }
 
         
@@ -105,7 +109,7 @@ namespace DataBaseFirst_BackEnd {
         public static void Escercise6(int id = 13, string name = "Rolando")
         {
             // borrar un empleado por el id
-            DeleteEmployeeById(id);
+            employeesService.DeleteEmployeeById(id);
 
             // eliminar por nombre
             /*var employee = GetEmployeeByName(name);
@@ -119,7 +123,7 @@ namespace DataBaseFirst_BackEnd {
 
             // obtener los productos, el cliente y el empleado por ID de order
             // se pone where primero para que filtre la busqueda primero y mejorar la concurrencia, tambien puede ir despues del select.
-            var qry = GetOrderByID(orderID).Select(s => new
+            var qry = ordersService.GetOrderByID(orderID).Select(s => new
             {
                 Cliente = s.Customer.CompanyName,
                 Vendedor = s.Employee.FirstName,
@@ -128,67 +132,6 @@ namespace DataBaseFirst_BackEnd {
 
             var result = qry.ToList();
         }
-
-        #region HelperMethods
-
-        private static IQueryable<Employees> GetAllEmployees()
-        {
-            return dataContext.Employees.Select(s => s);
-        }
-
-        private static Employees GetEmployeeByName(string name = "Rolando")
-        {
-            return dataContext.Employees.Where(w => w.FirstName == name).FirstOrDefault();
-        }
-
-        private static Employees GetEmployeeById(int id)
-        {
-            return GetAllEmployees().Where(w => w.EmployeeId == id).FirstOrDefault();
-        }
-
-        private static void AddNewProduct(string productName, decimal unitPrice)
-        {
-            var newProduct = new Products();
-            newProduct.ProductName = productName;
-            newProduct.UnitPrice = unitPrice;
-
-            dataContext.Products.Add(newProduct);
-            dataContext.SaveChanges();
-
-        }
-
-        private static void DeleteEmployeeById(int id)
-        {
-            var employee = GetEmployeeById(id);
-            dataContext.Employees.Remove(employee);
-            dataContext.SaveChanges();
-        }
-
-        private static IQueryable<Orders> GetOrderByID(int orderID)
-        {
-            return GetAllOrders().Where(w => w.OrderId == orderID);
-        }
-
-        private static IQueryable<Orders> GetAllOrders()
-        {
-            return dataContext.Orders;
-        }
-
-        private static void UpdateEmployeeFirstNameById(int id, string newName)
-        {
-            Employees currentEmployee = GetEmployeeById(id);
-
-            if (currentEmployee == null)
-            {
-                throw new Exception("No se encontro el id del empleado proporcionado");
-            }
-
-            currentEmployee.FirstName = newName;
-            dataContext.SaveChanges();
-        }
-
-        #endregion
-
 
         static void Main(string[] args) {
                 /*Excercise1();
