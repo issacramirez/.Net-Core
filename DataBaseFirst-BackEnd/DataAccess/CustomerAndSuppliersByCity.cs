@@ -5,10 +5,8 @@ using System.Collections.Generic;
 // If you have enabled NRTs for your project, then un-comment the following line:
 // #nullable disable
 
-namespace DataBaseFirst_BackEnd.DataAccess
-{
-    public partial class CustomerAndSuppliersByCity
-    {
+namespace DataBaseFirst_BackEnd.DataAccess {
+    public partial class CustomerAndSuppliersByCity {
         public string City { get; set; }
         public string CompanyName { get; set; }
         public string ContactName { get; set; }

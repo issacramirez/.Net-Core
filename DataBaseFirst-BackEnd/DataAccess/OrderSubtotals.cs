@@ -5,10 +5,8 @@ using System.Collections.Generic;
 // If you have enabled NRTs for your project, then un-comment the following line:
 // #nullable disable
 
-namespace DataBaseFirst_BackEnd.DataAccess
-{
-    public partial class OrderSubtotals
-    {
+namespace DataBaseFirst_BackEnd.DataAccess {
+    public partial class OrderSubtotals {
         public int OrderId { get; set; }
         public decimal? Subtotal { get; set; }
     }

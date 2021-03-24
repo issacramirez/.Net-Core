@@ -5,12 +5,9 @@ using System.Collections.Generic;
 // If you have enabled NRTs for your project, then un-comment the following line:
 // #nullable disable
 
-namespace DataBaseFirst_BackEnd.DataAccess
-{
-    public partial class Suppliers
-    {
-        public Suppliers()
-        {
+namespace DataBaseFirst_BackEnd.DataAccess {
+    public partial class Suppliers {
+        public Suppliers() {
             Products = new HashSet<Products>();
         }
 

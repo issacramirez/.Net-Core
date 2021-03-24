@@ -6,17 +6,12 @@ using Microsoft.EntityFrameworkCore.Metadata;
 // If you have enabled NRTs for your project, then un-comment the following line:
 // #nullable disable
 
-namespace DataBaseFirst_BackEnd.DataAccess
-{
-    public partial class NORTHWNDContext : DbContext
-    {
-        public NORTHWNDContext()
-        {
+namespace DataBaseFirst_BackEnd.DataAccess {
+    public partial class NORTHWNDContext : DbContext {
+        public NORTHWNDContext() {
         }
 
-        public NORTHWNDContext(DbContextOptions<NORTHWNDContext> options)
-            : base(options)
-        {
+        public NORTHWNDContext(DbContextOptions<NORTHWNDContext> options) : base(options) {
         }
 
         public virtual DbSet<AlphabeticalListOfProducts> AlphabeticalListOfProducts { get; set; }
@@ -49,19 +44,15 @@ namespace DataBaseFirst_BackEnd.DataAccess
         public virtual DbSet<Suppliers> Suppliers { get; set; }
         public virtual DbSet<Territories> Territories { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
+            if(!optionsBuilder.IsConfigured) {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=DESKTOP-L6I4UKE\\SQLEXPRESS;Database=NORTHWND;Trusted_Connection=True;");
             }
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<AlphabeticalListOfProducts>(entity =>
-            {
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            modelBuilder.Entity<AlphabeticalListOfProducts>(entity => {
                 entity.HasNoKey();
 
                 entity.ToView("Alphabetical list of products");
@@ -85,8 +76,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                 entity.Property(e => e.UnitPrice).HasColumnType("money");
             });
 
-            modelBuilder.Entity<Categories>(entity =>
-            {
+            modelBuilder.Entity<Categories>(entity => {
                 entity.HasKey(e => e.CategoryId);
 
                 entity.HasIndex(e => e.CategoryName)
@@ -103,8 +93,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                 entity.Property(e => e.Picture).HasColumnType("image");
             });
 
-            modelBuilder.Entity<CategorySalesFor1997>(entity =>
-            {
+            modelBuilder.Entity<CategorySalesFor1997>(entity => {
                 entity.HasNoKey();
 
                 entity.ToView("Category Sales for 1997");
@@ -116,8 +105,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                 entity.Property(e => e.CategorySales).HasColumnType("money");
             });
 
-            modelBuilder.Entity<CurrentProductList>(entity =>
-            {
+            modelBuilder.Entity<CurrentProductList>(entity => {
                 entity.HasNoKey();
 
                 entity.ToView("Current Product List");
@@ -131,8 +119,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                     .HasMaxLength(40);
             });
 
-            modelBuilder.Entity<CustomerAndSuppliersByCity>(entity =>
-            {
+            modelBuilder.Entity<CustomerAndSuppliersByCity>(entity => {
                 entity.HasNoKey();
 
                 entity.ToView("Customer and Suppliers by City");
@@ -151,9 +138,8 @@ namespace DataBaseFirst_BackEnd.DataAccess
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<CustomerCustomerDemo>(entity =>
-            {
-                entity.HasKey(e => new { e.CustomerId, e.CustomerTypeId })
+            modelBuilder.Entity<CustomerCustomerDemo>(entity => {
+                entity.HasKey(e => new { e.CustomerId,e.CustomerTypeId })
                     .IsClustered(false);
 
                 entity.Property(e => e.CustomerId)
@@ -179,8 +165,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                     .HasConstraintName("FK_CustomerCustomerDemo");
             });
 
-            modelBuilder.Entity<CustomerDemographics>(entity =>
-            {
+            modelBuilder.Entity<CustomerDemographics>(entity => {
                 entity.HasKey(e => e.CustomerTypeId)
                     .IsClustered(false);
 
@@ -192,8 +177,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                 entity.Property(e => e.CustomerDesc).HasColumnType("ntext");
             });
 
-            modelBuilder.Entity<Customers>(entity =>
-            {
+            modelBuilder.Entity<Customers>(entity => {
                 entity.HasKey(e => e.CustomerId);
 
                 entity.HasIndex(e => e.City)
@@ -236,9 +220,8 @@ namespace DataBaseFirst_BackEnd.DataAccess
                 entity.Property(e => e.Region).HasMaxLength(15);
             });
 
-            modelBuilder.Entity<EmployeeTerritories>(entity =>
-            {
-                entity.HasKey(e => new { e.EmployeeId, e.TerritoryId })
+            modelBuilder.Entity<EmployeeTerritories>(entity => {
+                entity.HasKey(e => new { e.EmployeeId,e.TerritoryId })
                     .IsClustered(false);
 
                 entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
@@ -260,8 +243,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                     .HasConstraintName("FK_EmployeeTerritories_Territories");
             });
 
-            modelBuilder.Entity<Employees>(entity =>
-            {
+            modelBuilder.Entity<Employees>(entity => {
                 entity.HasKey(e => e.EmployeeId);
 
                 entity.HasIndex(e => e.LastName)
@@ -314,8 +296,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                     .HasConstraintName("FK_Employees_Employees");
             });
 
-            modelBuilder.Entity<Invoices>(entity =>
-            {
+            modelBuilder.Entity<Invoices>(entity => {
                 entity.HasNoKey();
 
                 entity.ToView("Invoices");
@@ -380,9 +361,8 @@ namespace DataBaseFirst_BackEnd.DataAccess
                 entity.Property(e => e.UnitPrice).HasColumnType("money");
             });
 
-            modelBuilder.Entity<OrderDetails>(entity =>
-            {
-                entity.HasKey(e => new { e.OrderId, e.ProductId })
+            modelBuilder.Entity<OrderDetails>(entity => {
+                entity.HasKey(e => new { e.OrderId,e.ProductId })
                     .HasName("PK_Order_Details");
 
                 entity.ToTable("Order Details");
@@ -418,8 +398,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                     .HasConstraintName("FK_Order_Details_Products");
             });
 
-            modelBuilder.Entity<OrderDetailsExtended>(entity =>
-            {
+            modelBuilder.Entity<OrderDetailsExtended>(entity => {
                 entity.HasNoKey();
 
                 entity.ToView("Order Details Extended");
@@ -437,8 +416,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                 entity.Property(e => e.UnitPrice).HasColumnType("money");
             });
 
-            modelBuilder.Entity<OrderSubtotals>(entity =>
-            {
+            modelBuilder.Entity<OrderSubtotals>(entity => {
                 entity.HasNoKey();
 
                 entity.ToView("Order Subtotals");
@@ -448,8 +426,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                 entity.Property(e => e.Subtotal).HasColumnType("money");
             });
 
-            modelBuilder.Entity<Orders>(entity =>
-            {
+            modelBuilder.Entity<Orders>(entity => {
                 entity.HasKey(e => e.OrderId);
 
                 entity.HasIndex(e => e.CustomerId)
@@ -517,8 +494,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                     .HasConstraintName("FK_Orders_Shippers");
             });
 
-            modelBuilder.Entity<OrdersQry>(entity =>
-            {
+            modelBuilder.Entity<OrdersQry>(entity => {
                 entity.HasNoKey();
 
                 entity.ToView("Orders Qry");
@@ -567,8 +543,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                 entity.Property(e => e.ShippedDate).HasColumnType("datetime");
             });
 
-            modelBuilder.Entity<ProductSalesFor1997>(entity =>
-            {
+            modelBuilder.Entity<ProductSalesFor1997>(entity => {
                 entity.HasNoKey();
 
                 entity.ToView("Product Sales for 1997");
@@ -584,8 +559,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                 entity.Property(e => e.ProductSales).HasColumnType("money");
             });
 
-            modelBuilder.Entity<Products>(entity =>
-            {
+            modelBuilder.Entity<Products>(entity => {
                 entity.HasKey(e => e.ProductId);
 
                 entity.HasIndex(e => e.CategoryId)
@@ -634,8 +608,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                     .HasConstraintName("FK_Products_Suppliers");
             });
 
-            modelBuilder.Entity<ProductsAboveAveragePrice>(entity =>
-            {
+            modelBuilder.Entity<ProductsAboveAveragePrice>(entity => {
                 entity.HasNoKey();
 
                 entity.ToView("Products Above Average Price");
@@ -647,8 +620,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                 entity.Property(e => e.UnitPrice).HasColumnType("money");
             });
 
-            modelBuilder.Entity<ProductsByCategory>(entity =>
-            {
+            modelBuilder.Entity<ProductsByCategory>(entity => {
                 entity.HasNoKey();
 
                 entity.ToView("Products by Category");
@@ -664,8 +636,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                 entity.Property(e => e.QuantityPerUnit).HasMaxLength(20);
             });
 
-            modelBuilder.Entity<QuarterlyOrders>(entity =>
-            {
+            modelBuilder.Entity<QuarterlyOrders>(entity => {
                 entity.HasNoKey();
 
                 entity.ToView("Quarterly Orders");
@@ -682,8 +653,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                     .IsFixedLength();
             });
 
-            modelBuilder.Entity<Region>(entity =>
-            {
+            modelBuilder.Entity<Region>(entity => {
                 entity.HasKey(e => e.RegionId)
                     .IsClustered(false);
 
@@ -697,8 +667,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                     .IsFixedLength();
             });
 
-            modelBuilder.Entity<SalesByCategory>(entity =>
-            {
+            modelBuilder.Entity<SalesByCategory>(entity => {
                 entity.HasNoKey();
 
                 entity.ToView("Sales by Category");
@@ -716,8 +685,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                 entity.Property(e => e.ProductSales).HasColumnType("money");
             });
 
-            modelBuilder.Entity<SalesTotalsByAmount>(entity =>
-            {
+            modelBuilder.Entity<SalesTotalsByAmount>(entity => {
                 entity.HasNoKey();
 
                 entity.ToView("Sales Totals by Amount");
@@ -733,8 +701,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                 entity.Property(e => e.ShippedDate).HasColumnType("datetime");
             });
 
-            modelBuilder.Entity<Shippers>(entity =>
-            {
+            modelBuilder.Entity<Shippers>(entity => {
                 entity.HasKey(e => e.ShipperId);
 
                 entity.Property(e => e.ShipperId).HasColumnName("ShipperID");
@@ -746,8 +713,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                 entity.Property(e => e.Phone).HasMaxLength(24);
             });
 
-            modelBuilder.Entity<SummaryOfSalesByQuarter>(entity =>
-            {
+            modelBuilder.Entity<SummaryOfSalesByQuarter>(entity => {
                 entity.HasNoKey();
 
                 entity.ToView("Summary of Sales by Quarter");
@@ -759,8 +725,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                 entity.Property(e => e.Subtotal).HasColumnType("money");
             });
 
-            modelBuilder.Entity<SummaryOfSalesByYear>(entity =>
-            {
+            modelBuilder.Entity<SummaryOfSalesByYear>(entity => {
                 entity.HasNoKey();
 
                 entity.ToView("Summary of Sales by Year");
@@ -772,8 +737,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                 entity.Property(e => e.Subtotal).HasColumnType("money");
             });
 
-            modelBuilder.Entity<Suppliers>(entity =>
-            {
+            modelBuilder.Entity<Suppliers>(entity => {
                 entity.HasKey(e => e.SupplierId);
 
                 entity.HasIndex(e => e.CompanyName)
@@ -809,8 +773,7 @@ namespace DataBaseFirst_BackEnd.DataAccess
                 entity.Property(e => e.Region).HasMaxLength(15);
             });
 
-            modelBuilder.Entity<Territories>(entity =>
-            {
+            modelBuilder.Entity<Territories>(entity => {
                 entity.HasKey(e => e.TerritoryId)
                     .IsClustered(false);
 

@@ -17,6 +17,7 @@ namespace ApiRestNorthwnd.Controllers {
         [HttpGet]
         public List<Employees> Get() {
             var employees = new EmployeesService().GetAllEmployees().Select(s => new Employees {
+                EmployeeId = s.EmployeeId,
                 FirstName = s.FirstName,
                 LastName = s.LastName,
                 BirthDate = s.BirthDate,
