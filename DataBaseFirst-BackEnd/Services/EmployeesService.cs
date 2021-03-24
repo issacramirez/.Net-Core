@@ -13,7 +13,10 @@ namespace DataBaseFirst_BackEnd.Services {
         }
 
         public Employees GetEmployeeById(int id) {
-            return GetAllEmployees().Where(w => w.EmployeeId == id).FirstOrDefault();
+            var employee =  GetAllEmployees().Where(w => w.EmployeeId == id).FirstOrDefault();
+            if(employee == null)
+                throw new Exception("El id ingresado no existe en la base de datos.");
+            return employee;
         }
 
         public void DeleteEmployeeById(int id) {
@@ -24,11 +27,9 @@ namespace DataBaseFirst_BackEnd.Services {
 
         public void UpdateEmployeeFirstNameById(int id,string newName) {
             Employees currentEmployee = GetEmployeeById(id);
-
             if(currentEmployee == null) {
                 throw new Exception("No se encontro el id del empleado proporcionado");
             }
-
             currentEmployee.FirstName = newName;
             dataContext.SaveChanges();
         }
@@ -42,7 +43,6 @@ namespace DataBaseFirst_BackEnd.Services {
                 FirstName = newEmployee.Name,
                 LastName = newEmployee.FamilyName
             };
-
             dataContext.Employees.Add(newEmployeeRegister);
             dataContext.SaveChanges();
 
