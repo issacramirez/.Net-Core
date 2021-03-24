@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBaseFirst-BackEnd", "DataBaseFirst-BackEnd\DataBaseFirst-BackEnd.csproj", "{14FD94A5-4ADC-4A1B-858C-2D55BD015CEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataBaseFirst-BackEnd", "DataBaseFirst-BackEnd\DataBaseFirst-BackEnd.csproj", "{14FD94A5-4ADC-4A1B-858C-2D55BD015CEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiRestNorthwnd", "ApiRestNorthwnd\ApiRestNorthwnd.csproj", "{F65AE395-551B-4F33-A21C-D91C96FB224A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{14FD94A5-4ADC-4A1B-858C-2D55BD015CEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14FD94A5-4ADC-4A1B-858C-2D55BD015CEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14FD94A5-4ADC-4A1B-858C-2D55BD015CEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F65AE395-551B-4F33-A21C-D91C96FB224A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F65AE395-551B-4F33-A21C-D91C96FB224A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F65AE395-551B-4F33-A21C-D91C96FB224A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F65AE395-551B-4F33-A21C-D91C96FB224A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

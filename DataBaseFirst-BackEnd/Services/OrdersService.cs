@@ -4,18 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DataBaseFirst_BackEnd.Services
-{
-    class OrdersService : BaseService
-    {
+namespace DataBaseFirst_BackEnd.Services {
+    class OrdersService : BaseService {
 
-        public IQueryable<Orders> GetOrderByID(int orderID)
-        {
+        public IQueryable<Orders> GetOrderByID(int orderID) {
             return GetAllOrders().Where(w => w.OrderId == orderID);
         }
 
-        public IQueryable<Orders> GetAllOrders()
-        {
+        public IQueryable<Orders> GetAllOrders() {
             return dataContext.Orders;
         }
 
