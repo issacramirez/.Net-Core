@@ -27,9 +27,6 @@ namespace DataBaseFirst_BackEnd.Services {
 
         public void UpdateEmployeeFirstNameById(int id,string newName) {
             Employees currentEmployee = GetEmployeeById(id);
-            if(currentEmployee == null) {
-                throw new Exception("No se encontro el id del empleado proporcionado");
-            }
             currentEmployee.FirstName = newName;
             dataContext.SaveChanges();
         }
